@@ -19,4 +19,4 @@ elif (year % 4 ==0) and (year % 100 != 0):
 # year is not leap year
 else:
     print("{0} is not a leap year".format(year))
-    print("py")
+    print("python progtram")
