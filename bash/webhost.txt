@@ -1,0 +1,11 @@
+#!/bin/bash
+
+#program for web host bash script
+
+sudo su
+yum update -y
+cd /
+yum install httpd -y
+cd var/www/html
+echo "Its webhosting test" >> index.html
+service start httpd
