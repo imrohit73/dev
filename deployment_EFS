@@ -1,0 +1,37 @@
+pipeline {
+    agent {
+    label {
+        label "built-in"
+        customWorkspace "/project/"
+        }
+    }
+    stages {
+        stage ("Cloning") {
+            steps {
+                cleanWs()
+                git credentialsId: 'lokesh', url: 'https://github.com/kiran064/Myproject.git'
+            }
+        }
+        stage ("Build") {
+            steps {
+                sh "mvn clean install"
+            }
+        }
+        stage ("Copy") {
+            steps {
+                sh "rm -rf /efs/*"
+                sh 'cp -r /project/target/*.war /efs/'
+            }
+        }
+        stage ("Deploy") {
+            agent { label "Linux" }
+            
+            steps{
+                sh "sudo rm -rf /tomcat/apache-tomcat-9.0.70/webapps/*.war"
+                sh "sudo cp -r /efs/*.war /tomcat/apache-tomcat-9.0.70/webapps/"
+            }
+
+        }
+          
+    }
+}

@@ -1,0 +1,34 @@
+pipeline{
+    agent { label 'Linux' }
+    stages {
+        stage ("project1") {
+            steps{
+                build 'Project'
+            }
+        }
+        stage ("Project2") {
+            steps {
+                build 'Project2' 
+            }
+        }
+        stage ("Parellel 3&4") {
+        parallel {
+            stage ("Project3") {
+                steps{
+                    build 'Project3'
+                }
+            }
+            stage ('Projec4') {
+                steps {
+                    build 'Project4'
+                }
+            }
+        }
+        }
+        stage ("Project5") {
+            steps {
+                build 'Project5'
+            }
+        }
+    }
+}

@@ -1,0 +1,26 @@
+pipeline {
+    agent { label "built-in" }
+    stages {
+        stage ("git clone") {
+            steps{
+                dir ('project/') {
+                    
+                    cleanWs()
+                    sh 'git clone https://github.com/kiran064/game-of-life.git'
+            }
+            }
+        }
+        stage ("build") {
+            steps{
+                dir ('project/game-of-life/') {
+                    sh "mvn clean install"
+                }
+            }
+        }
+        stage ('Deploy') {
+            steps{
+            sh "scp -i '/key.pem' -r /root/.jenkins/workspace/deployproject/project/game-of-life/gameoflife-web/target/*.war ec2-user@3.111.29.173:/home/ec2-user/tom/apache-tomcat-9.0.70/webapps/"
+        }
+        }
+    }
+}

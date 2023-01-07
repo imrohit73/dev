@@ -1,0 +1,12 @@
+pipeline {
+    agent { label 'built-in'}
+    stages{
+        stage ("Clone Project"){
+            steps{
+                withCredentials(usernamePassword(credentialsId :lokesh ,passwordVariable: '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', usernameVariable: 'kiran' ))
+                sh "git clone https://github.com/kiran064/Myproject.git"
+            }
+        }
+    }
+
+}
