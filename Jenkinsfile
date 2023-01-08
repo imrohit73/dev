@@ -1,9 +1,12 @@
 pipeline {
     agent {
-    label { label "built-in" }
+    label {
+        label "built-in"
+        customWorkspace "/project/"
+        }
+    }
     tools {
     jdk 'java8'
-    }
     }
     stages {
         stage ("Cloning") {
@@ -17,12 +20,12 @@ pipeline {
                 sh "mvn clean install"
             }
         }
-        stage ("Copy") {
+        /*stage ("Copy") {
             steps {
                 stash includes: 'target/*.war', name: 'project'
             }
         }
-        /*stage ("Deploy"){
+        stage ("Deploy"){
 		agent {
 		node {
 				label "Linux"
