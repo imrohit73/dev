@@ -1,9 +1,6 @@
 pipeline {
     agent {
-    label {
-        label "built-in"
-        customWorkspace "/project/"
-        }
+    label { label "built-in" }
     tools {
     jdk 'java8'
     }
