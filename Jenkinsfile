@@ -5,9 +5,8 @@ pipeline {
         customWorkspace "/project/"
         }
     tools {
-  jdk 'java8'
+    jdk 'java8'
     }
-
     }
     stages {
         stage ("Cloning") {
