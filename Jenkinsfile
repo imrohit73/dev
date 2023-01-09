@@ -25,10 +25,8 @@ pipeline {
 		steps {
             sh "sudo yum install docker -y"
 		    sh "sudo systemctl start docker.service"
-            try {
-            sh "sudo docker stop tomcat"
+            //sh "sudo docker stop tomcat"
             sh "sudo docker system prune -a -f"
-            }
 		    cleanWs()
 		    unstash 'project'
 		    sh "sudo docker run -it -p 8090:8080 -v /home/ec2-user/workspace/Project/target:/usr/local/tomcat/webapps -d --name tomcat tomcat:9.0.70-jdk11-corretto-al2"
