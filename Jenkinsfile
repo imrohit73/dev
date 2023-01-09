@@ -25,7 +25,7 @@ pipeline {
 		steps {
             sh "sudo yum install docker -y"
 		    sh "sudo systemctl start docker.service"
-            ignore(FAILURE) {
+            try (FAILURE) {
             sh "sudo docker stop tomcat"
             sh "sudo docker system prune -a -f"
             }
