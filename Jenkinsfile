@@ -1,13 +1,8 @@
 pipeline {
-    agent {
-    label {
-        label "built-in"
-        customWorkspace "/project/"
-        }
-    }
+    agent { label "built-in" }
     tools {
-    jdk 'java8'
-    }
+  jdk 'java8'
+}
     stages {
         stage ("Cloning") {
             steps {
@@ -20,21 +15,21 @@ pipeline {
                 sh "mvn clean install"
             }
         }
-        /*stage ("Copy") {
+        stage ("Copy") {
             steps {
                 stash includes: 'target/*.war', name: 'project'
             }
         }
         stage ("Deploy"){
-		agent {
-		node {
-				label "Linux"
-		}
-		}
+		agent { label "Linux" }
 		steps {
+		    cleanWs()
+		    sh "sudo yum install docker -y"
+		    sh "sudo systemctl start docker.service"
 		    unstash 'project'
-		    sh "sudo cp -r /home/ec2-user/workspace/DeployUsringStash/target/vprofile-v2.war /tom/apache-tomcat-9.0.70/webapps/"
+		    sh "sudo docker run -it -p 8090:8080 -v /home/ec2-user/workspace/Project/target:/usr/local/tomcat/webapps -d --name tomcat tomcat:8"
+		    //sh "sudo docker exec tomcat sh -c 'cp -r /usr/local/tomcat/webapps.dist/* /usr/local/tomcat/webapps/'"
 		}
-		}*/
     }
+}
 }
