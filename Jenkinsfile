@@ -55,6 +55,7 @@ pipeline{
 			stages {
 				stage ("Docker_Compose") {
 					steps {
+                        cleanWs()
 						sh "sudo systemctl start docker.service"
                         sh "sudo docker stop dockerproject-web1-1 dockerproject-web2-1"
                         sh "sudo docker system prune -af"
