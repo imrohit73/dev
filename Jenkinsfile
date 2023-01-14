@@ -57,7 +57,8 @@ pipeline{
 					steps {
 						sh "sudo systemctl start docker.service"
 						sh "sudo docker-compose down"
-						cleanWs()
+						sh "rm -rf gameoflife-web target docker-compose.yaml"
+                        //cleanWs()
 						writeFile file: 'docker-compose.yaml', text: '''version: "3.9"
 services:
   web1:
