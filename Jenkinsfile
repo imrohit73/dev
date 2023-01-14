@@ -57,7 +57,7 @@ pipeline{
 					steps {
                         cleanWs()
 						sh "sudo systemctl start docker.service"
-                        sh "sudo docker stop $(docker ps -qa)"
+                        sh "sudo docker stop dockerproject-web1-1 dockerproject-web2-1"
                         sh "sudo docker system prune -af"
 						//sh "sudo docker-compose down"
 						//sh "rm -rf gameoflife-web target docker-compose.yaml"
