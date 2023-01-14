@@ -55,10 +55,12 @@ pipeline{
 			stages {
 				stage ("Docker_Compose") {
 					steps {
+                        cleanWs()
 						sh "sudo systemctl start docker.service"
+                        sh "sudo docker stop $(docker ps -qa)"
+                        sh "sudo docker system prune -af"
 						//sh "sudo docker-compose down"
 						//sh "rm -rf gameoflife-web target docker-compose.yaml"
-                        cleanWs()
 						writeFile file: 'docker-compose.yaml', text: '''version: "3.9"
 services:
   web1:
