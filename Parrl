@@ -1,66 +1,68 @@
-pipeline {
-
-		agent {
-		
-				label 'built-in'
-		}
-		
-		stages {
-		
-		
-			stage ('stage-1'){
-			
-			steps {
-			
-			echo "Hello World"
-			
-			}
-			
-			}
-		
-		
-		
-			stage ('parallel-stages-2'){
-			
+pipeline{
+	agent { label "built-in" }
+	tools { jdk 'java8' }
+	stages{
+		stage ('parallel pipeline') {
 			parallel {
-			
-			stage ('sleep-1'){
-			
-				steps {
-				
-						sleep 10
-				
+				stage ("Project1") {
+					agent { label "built-in"}
+					stages {
+						stage ("clone") {
+							steps {
+								cleanWs()
+								git credentialsId: 'Lokesh', url: 'https://github.com/kiran064/Myproject.git'
+							}
+						}
+						stage ("Build") {
+							steps {
+								sh "mvn clean install"
+							}
+						}
+						stage ("Copy") {
+                        steps {
+                            stash includes: 'target/*.war', name: 'Project1'
+                    		}
+                		}
+					}
 				}
-		
-			
-			}
-			
-			stage ('sleep-2'){
-			
-				steps {
-				
-						sleep 10
-				
+				stage ("Project2") {
+					agent { label "Linux"}
+					tools { jdk 'java8' }
+					stages {
+						stage ("clone") {
+							steps{
+								cleanWs()
+								git 'https://github.com/kiran064/game-of-life.git'
+							}
+						}
+						stage ("Build") {
+							steps {
+								sh "mvn clean install"
+							}
+						}
+						stage ("Copy") {
+                        steps {
+                            stash includes: 'gameoflife-web/target/*.war', name: 'Project2'
+                    		}
+                		}
+					}
 				}
-		
-			
 			}
-			
+		}
+		stage ("Deploy") {
+			agent { label "Docker"}
+			tools { jdk 'java8' }
+			stages {
+				stage ("Docker_Compose") {
+					steps {
+						sh "sudo systemctl start docker.service"
+						sh "sudo docker-compose down"
+						cleanWs()
+						unstash 'Project1'
+						unstash 'Project2'
+					}
+				}
 			}
-
-
+		}
+	}
 }
-
-
-			stage ('stage-3'){
-			
-			steps {
-			
-			echo "Hello World"
-			
-			}
-			
-			}
-}
-}
-
