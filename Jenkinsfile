@@ -57,7 +57,7 @@ pipeline{
 					steps {
                         dir ("./pro") {
                             sh "sudo systemctl start docker.service"
-                            //sh "sudo docker-compose down"
+                            sh "sudo docker-compose down"
                             sh "sudo docker system prune -af"
                             cleanWs()
                             //sh "sudo docker stop dockerproject-web1-1 dockerproject-web2-1"
