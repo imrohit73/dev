@@ -55,13 +55,14 @@ pipeline{
 			stages {
 				stage ("Docker_Compose") {
 					steps {
-                        cleanWs()
-						sh "sudo systemctl start docker.service"
-                        sh "sudo docker stop dockerproject-web1-1 dockerproject-web2-1"
-                        sh "sudo docker system prune -af"
-						//sh "sudo docker-compose down"
-					    //sh "rm -rf gameoflife-web target docker-compose.yaml"
-						writeFile file: 'docker-compose.yaml', text: '''version: "3.9"
+                        dir ("./pro") {
+                            cleanWs()
+						    sh "sudo systemctl start docker.service"
+                            sh "sudo docker stop dockerproject-web1-1 dockerproject-web2-1"
+                            sh "sudo docker system prune -af"
+						    //sh "sudo docker-compose down"
+					        //sh "rm -rf gameoflife-web target docker-compose.yaml"
+						    writeFile file: 'docker-compose.yaml', text: '''version: "3.9"
 services:
   web1:
     image: "tomcat:9.0.70-jdk11-corretto-al2"
@@ -75,9 +76,10 @@ services:
       - "8090:8080"
     volumes:
       - ./gameoflife-web/target:/usr/local/tomcat/webapps'''
-						unstash 'Project1'
-						unstash 'Project2'
-						sh "sudo docker-compose up -d"
+						    unstash 'Project1'
+						    unstash 'Project2'
+						    sh "sudo docker-compose up -d"
+                        }
 					}
 				}
 			}
