@@ -54,9 +54,7 @@ pipeline{
 			tools { jdk 'java8' }
 			stages {
 				stage ("Docker_Compose") {
-                    steps{
                         cleanWs()
-                    }
 					steps {
 						sh "sudo systemctl start docker.service"
                         sh "sudo docker stop dockerproject-web1-1 dockerproject-web2-1"
