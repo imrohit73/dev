@@ -79,6 +79,7 @@ services:
 						    unstash 'Project1'
 						    unstash 'Project2'
 						    sh "sudo docker-compose up -d"
+							echo "Done and succed"
                         }
 					}
 				}
