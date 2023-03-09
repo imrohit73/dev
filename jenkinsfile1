@@ -64,6 +64,11 @@ pipeline {
             )
             }
         }
+        9abdb0ac83a745afa74c9928ef8e3e66
+        mvn sonar:sonar \
+  -Dsonar.projectKey=devops-test \
+  -Dsonar.host.url=http://13.235.73.252 \
+  -Dsonar.login=f62066d5dc9807e0ab6a2290a79b6f085ffc90bc
 
     }
 }
