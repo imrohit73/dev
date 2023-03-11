@@ -12,3 +12,5 @@ chmod -R 744 apache-tomcat-9.0.73
 ./apache-tomcat-9.0.73/bin/startup.sh
 cd apache-tomcat-9.0.73/webapps/
 wget https://updates.jenkins.io/download/war/2.343/jenkins.war
+cd /
+./tom/apache-tomcat-9.0.73/bin/startup.sh
